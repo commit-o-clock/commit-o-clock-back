@@ -1,18 +1,19 @@
 package com.backend.commitoclock.application.service
 
+import com.backend.commitoclock.domain.model.User
 import com.backend.commitoclock.infrastructure.gateway.CommitGateway
 import org.springframework.stereotype.Service
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Service
 class CommitCheckService(
-    private val githubGateway: CommitGateway,
+    private val commitGateway: CommitGateway
 ) {
-    fun hasUserCommittedToday(githubId: String): Boolean {
-        val today = LocalDate.now()
-        val events = githubGateway.retrieveEvents(githubId, today)
-        return events.any { event ->
-            event.type == "PushEvent" && event.createdAt.toLocalDate() == today
-        }
+    fun hasCommittedToday(githubId: String): Int {
+        val todayDate = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE)
+        val commitData = commitGateway.fetchCommitData(githubId)
+        val todayCommitCount = commitData[todayDate] ?: 0
+        return todayCommitCount
     }
 }

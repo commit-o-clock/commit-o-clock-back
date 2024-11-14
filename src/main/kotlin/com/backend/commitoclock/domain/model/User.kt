@@ -7,6 +7,7 @@ data class User(
     val username: String,
     val githubId: String,
     var lastCommitDate: LocalDateTime? = null,
+    val commitData: MutableMap<String, Int> = mutableMapOf(),
     var isNotified: Boolean = false,
     val notificationPreferences: NotificationPreferenceDomain
 ) {
@@ -14,8 +15,10 @@ data class User(
         return !isNotified && (lastCommitDate?.toLocalDate() != LocalDateTime.now().toLocalDate())
     }
 
-    fun updateLastCommitDate(commitDate: LocalDateTime) {
-        this.lastCommitDate = commitDate
+    fun updateLastCommitDate(commitCount: Int) {
+        val today = LocalDateTime.now().toLocalDate().toString()
+        this.lastCommitDate = LocalDateTime.now()
+        this.commitData[today] = commitCount
         this.isNotified = false
     }
 
