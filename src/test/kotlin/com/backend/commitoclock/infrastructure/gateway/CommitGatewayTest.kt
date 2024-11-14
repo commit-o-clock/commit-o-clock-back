@@ -12,10 +12,10 @@ class CommitGatewayTest @Autowired constructor(
     private val commitGateway: CommitGateway
 ) {
     @Test
-    @DisplayName("유효한 githubId 에 대해 비어 있지 않은 맵을 검색해야 함")
-    fun `fetchCommitData should retrieve non-empty map for valid username`() {
-        val commitData = commitGateway.fetchCommitData("HyunsooZo")
-        assertTrue(commitData.isNotEmpty())
-        println(commitData.values)
+    @DisplayName("유효한 githubId 에 대해 커밋 개수 반환해야 함")
+    fun `fetchCommitData should retrieve integer val`() {
+        val commitData = commitGateway.fetchCommitData("HyunsooZo","2024-11-14")
+        assertTrue(commitData >= 0)
+        println(commitData)
     }
 }
