@@ -11,4 +11,5 @@ interface UserMongoRepository : MongoRepository<UserCollection, String> {
     fun findByUsername(username: String): Optional<UserCollection>
     fun findByGithubId(githubId: String): Optional<UserCollection>
     fun findByLastCommitDateAfter(date: LocalDateTime): List<UserCollection>
+    fun existsByGithubId(githubId: String): Boolean
 }

@@ -19,11 +19,11 @@ class UserRepositoryImpl(
         return userMongoRepository.findAll().map { it.toDomain() }
     }
 
-    override fun findById(id: String): User {
+    override fun findById(userId: String): User? {
         return userMongoRepository
-            .findById(id)
+            .findById(userId)
             .map { it.toDomain() }
-            .orElseThrow { CommitOClockException(HttpStatus.NOT_FOUND, "User not found") }
+            .orElse(null)
     }
 
     override fun findByUsername(username: String): User {
@@ -65,5 +65,9 @@ class UserRepositoryImpl(
         ).let {
             return userMongoRepository.save(it).toDomain()
         }
+    }
+
+    override fun isExist(githubId: String): Boolean {
+        return userMongoRepository.existsByGithubId(githubId)
     }
 }

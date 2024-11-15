@@ -9,4 +9,7 @@ class UserInquiryService(
 ) {
     fun findAllUsers() = userRepository.findAll()
     fun getUser(userId: String) = userRepository.findById(userId)
+    fun checkDuplication(githubId: String): Boolean {
+        return userRepository.isExist(githubId)
+    }
 }
