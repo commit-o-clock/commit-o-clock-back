@@ -1,6 +1,6 @@
 package com.backend.commitoclock.user.infra.mongo.model
 
-import com.backend.commitoclock.user.domain.model.NotificationMethod
+import com.backend.commitoclock.shared.model.NotificationMethod
 import com.backend.commitoclock.user.domain.model.NotificationPreferenceDomain
 import com.backend.commitoclock.user.domain.model.User
 import org.springframework.data.annotation.Id
@@ -31,13 +31,17 @@ data class UserCollection(
 
 data class NotificationPreference(
     val enableDailyReminder: Boolean,
-    val preferredTime: String,
+    val preferredTime: Int,
+    val phoneNumber: String,
+    val socialMediaId: String,
     val notificationMethod: NotificationMethod
 ) {
     fun toDomain(): NotificationPreferenceDomain {
         return NotificationPreferenceDomain(
             enableDailyReminder = enableDailyReminder,
             preferredTime = preferredTime,
+            phoneNumber = phoneNumber,
+            socialMediaId = socialMediaId,
             notificationMethod = notificationMethod
         )
     }

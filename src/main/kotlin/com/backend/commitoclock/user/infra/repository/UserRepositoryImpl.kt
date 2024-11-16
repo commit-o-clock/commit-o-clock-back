@@ -1,8 +1,8 @@
 package com.backend.commitoclock.user.infra.repository
 
+import com.backend.commitoclock.shared.exception.CommitOClockException
 import com.backend.commitoclock.user.domain.model.User
 import com.backend.commitoclock.user.domain.repository.UserRepository
-import com.backend.commitoclock.shared.exception.CommitOClockException
 import com.backend.commitoclock.user.infra.mongo.model.NotificationPreference
 import com.backend.commitoclock.user.infra.mongo.model.UserCollection
 import com.backend.commitoclock.user.infra.mongo.repository.UserMongoRepository
@@ -60,6 +60,8 @@ class UserRepositoryImpl(
             NotificationPreference(
                 enableDailyReminder = user.notificationPreferences.enableDailyReminder,
                 preferredTime = user.notificationPreferences.preferredTime,
+                phoneNumber = user.notificationPreferences.phoneNumber,
+                socialMediaId = user.notificationPreferences.socialMediaId,
                 notificationMethod = user.notificationPreferences.notificationMethod
             )
         ).let {
@@ -70,4 +72,11 @@ class UserRepositoryImpl(
     override fun isExist(githubId: String): Boolean {
         return userMongoRepository.existsByGithubId(githubId)
     }
+
+    override fun findAllByPreferredTime(currentHour: Int): List<User> {
+        return userMongoRepository
+            .findAllByNotificationPreferences_PreferredTime(currentHour)
+            .map { it.toDomain() }
+    }
+
 }

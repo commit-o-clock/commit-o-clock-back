@@ -11,4 +11,5 @@ interface UserRepository {
     fun findByLastCommitDateAfter(date: LocalDateTime): List<User>
     fun save(user: User): User
     fun isExist(githubId: String): Boolean
+    fun findAllByPreferredTime(currentHour: Int): List<User>
 }

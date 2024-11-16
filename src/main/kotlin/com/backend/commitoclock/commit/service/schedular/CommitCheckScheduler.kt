@@ -6,6 +6,7 @@ import com.backend.commitoclock.user.service.UserInquiryService
 import com.backend.commitoclock.user.service.UserUpdateService
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
+import java.time.LocalTime
 
 @Component
 class CommitCheckScheduler(
@@ -14,16 +15,16 @@ class CommitCheckScheduler(
     private val userUpdateService: UserUpdateService,
     private val notificationService: NotificationService
 ) {
-    @Scheduled(cron = "0 0 21 * * ?")
+    @Scheduled(cron = "0 0 * * * ?")
     fun stackNotification() {
-        userInquiryService.findAllUsers().forEach { user ->
-            val commitsOfToday = commitCheckService.hasCommittedToday(user.githubId)
-            if (commitsOfToday > 0) {
-                notificationService.stackNotification(user)
-                user.updateLastCommitDate(commitsOfToday)
-                userUpdateService.save(user)
-            } else {
-                notificationService.stackNotification(user)
+        userInquiryService.getTargetUsers(LocalTime.now().hour)
+            .forEach { user ->
+                val commitsOfToday = commitCheckService.hasCommittedToday(user.githubId)
+                if (commitsOfToday > 0) {
+                    user.updateLastCommitDate(commitsOfToday)
+                    userUpdateService.save(user)
+                } else {
+                    notificationService.stackNotification(user.toNotificationTarget())
             }
         }
         notificationService.sendNotification()
