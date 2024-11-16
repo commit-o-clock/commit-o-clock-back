@@ -1,12 +1,14 @@
 package com.backend.commitoclock.user.service.command
 
-import com.backend.commitoclock.user.domain.model.NotificationMethod
+import com.backend.commitoclock.shared.model.NotificationMethod
 
 data class UserRegistrationCommand(
     val username: String,
     val githubId: String,
-    val isNotified: Boolean = false,
     val enableDailyReminder: Boolean,
-    val preferredTime: String,
+    val preferredTime: Int,
+    val countryCode: Int,
+    val phoneNumber: String,
+    val socialMediaId: String,
     val notificationMethod: NotificationMethod
 ) {}

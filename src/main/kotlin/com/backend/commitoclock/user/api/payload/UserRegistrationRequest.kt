@@ -1,23 +1,29 @@
 package com.backend.commitoclock.user.api.payload
 
+import com.backend.commitoclock.shared.model.NotificationMethod
 import com.backend.commitoclock.user.service.command.UserRegistrationCommand
-import com.backend.commitoclock.user.domain.model.NotificationMethod
+import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Size
 
 class UserRegistrationRequest(
-    private val username: String,
-    private val githubId: String,
-    private val isNotified: Boolean = false,
-    private val enableDailyReminder: Boolean,
-    private val preferredTime: String,
-    private val notificationMethod: NotificationMethod
+    @field:NotNull private val username: String,
+    @field:NotNull private val githubId: String,
+    @field:NotNull private val enableDailyReminder: Boolean,
+    @field:Size(min = 1, max = 23) private val preferredTime: Int,
+    @field:NotNull private val countryCode: Int,
+    @field:NotNull private val phoneNumber: String,
+    private val socialMediaId: String,
+    @field:NotNull private val notificationMethod: NotificationMethod
 ) {
     fun toCommand(): UserRegistrationCommand {
         return UserRegistrationCommand(
             username = username,
             githubId = githubId,
-            isNotified = isNotified,
             enableDailyReminder = enableDailyReminder,
             preferredTime = preferredTime,
+            countryCode = countryCode,
+            phoneNumber = phoneNumber,
+            socialMediaId = socialMediaId,
             notificationMethod = notificationMethod
         )
     }

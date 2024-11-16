@@ -25,6 +25,8 @@ class UserRegistrationService(
                 notificationPreferences = NotificationPreferenceDomain(
                     enableDailyReminder = command.enableDailyReminder,
                     preferredTime = command.preferredTime,
+                    phoneNumber = command.phoneNumber,
+                    socialMediaId = command.socialMediaId,
                     notificationMethod = command.notificationMethod
                 )
             )
