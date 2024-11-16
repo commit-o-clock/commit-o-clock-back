@@ -9,8 +9,10 @@ import java.time.format.DateTimeFormatter
 class CommitCheckService(
     private val commitGateway: CommitGateway
 ) {
-    fun hasCommittedToday(githubId: String): Int {
-        val today = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE)
-        return commitGateway.fetchCommitData(githubId, today)
+    fun hasCommitted(
+        githubId: String,
+        date: String
+    ): Int {
+        return commitGateway.fetchCommitData(githubId, date)
     }
 }
