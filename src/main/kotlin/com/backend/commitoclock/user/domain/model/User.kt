@@ -12,10 +12,12 @@ data class User(
     val commitData: MutableMap<String, Int> = mutableMapOf(),
     val notificationPreferences: NotificationPreferenceDomain
 ) {
-    fun updateLastCommitDate(commitCount: Int) {
-        val today = LocalDateTime.now().toLocalDate().toString()
+    fun updateLastCommitDate(
+        date: String,
+        commitCount: Int
+    ) {
         this.lastCommitDate = LocalDateTime.now()
-        this.commitData[today] = commitCount
+        this.commitData[date] = commitCount
     }
 
     fun toNotificationTarget(): NotificationTarget {
@@ -23,6 +25,8 @@ data class User(
             username = this.username,
             phoneNumber = "",
             socialMediaId = "",
+            userId = id ?: "",
+            commitDate = lastCommitDate.toString(),
             notificationMethod = this.notificationPreferences.notificationMethod
         )
     }

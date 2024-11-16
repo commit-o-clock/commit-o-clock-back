@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service
 class UserUpdateService(
     private val userRepository: UserRepository
 ) {
-    fun save(user: User) {
-        userRepository.save(user)
+    fun saveAll(users: MutableList<User>) {
+        if(users.isEmpty()) {
+            return
+        }
+        // TODO
     }
 }

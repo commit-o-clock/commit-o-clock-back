@@ -3,9 +3,9 @@ package com.backend.commitoclock.user.infra.repository
 import com.backend.commitoclock.shared.exception.CommitOClockException
 import com.backend.commitoclock.user.domain.model.User
 import com.backend.commitoclock.user.domain.repository.UserRepository
-import com.backend.commitoclock.user.infra.mongo.model.NotificationPreference
-import com.backend.commitoclock.user.infra.mongo.model.UserCollection
-import com.backend.commitoclock.user.infra.mongo.repository.UserMongoRepository
+import com.backend.commitoclock.user.infra.mongo.NotificationPreference
+import com.backend.commitoclock.user.infra.mongo.UserCollection
+import com.backend.commitoclock.user.infra.mongo.UserMongoRepository
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
@@ -55,7 +55,6 @@ class UserRepositoryImpl(
             username = user.username,
             githubId = user.githubId,
             lastCommitDate = user.lastCommitDate,
-            isNotified = user.isNotified,
             notificationPreferences =
             NotificationPreference(
                 enableDailyReminder = user.notificationPreferences.enableDailyReminder,
