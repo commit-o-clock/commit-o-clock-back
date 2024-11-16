@@ -4,7 +4,10 @@ import org.springframework.stereotype.Component
 
 @Component("kakaoGateway")
 class KakaoGateway : NotificationGateway {
-    override fun sendNotification() {
+    override fun sendNotification(
+        phoneNumber: String,
+        username: String
+    ) {
         // TODO
     }
 }

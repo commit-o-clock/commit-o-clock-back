@@ -4,5 +4,8 @@ import org.springframework.stereotype.Component
 
 @Component
 interface NotificationGateway {
-    fun sendNotification()
+    fun sendNotification(
+        phoneNumber: String,
+        username: String
+    )
 }
