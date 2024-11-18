@@ -1,10 +1,10 @@
 package com.backend.commitoclock.notification.infra.concurrent
 
-import com.backend.commitoclock.notification.domain.NotificationTarget
+import com.backend.commitoclock.notification.domain.model.NotificationTarget
 import org.springframework.stereotype.Component
 import java.util.concurrent.ConcurrentLinkedQueue
 
-@Component("inMemoryQueue")
+@Component("inMemoryQueue") // TODO : Change to Kafka
 class InMemoryNotificationTargetQueue : NotificationTargetQueue {
     private val queue = ConcurrentLinkedQueue<NotificationTarget>()
 

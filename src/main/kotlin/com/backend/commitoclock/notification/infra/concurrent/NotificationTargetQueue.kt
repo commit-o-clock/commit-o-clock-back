@@ -1,6 +1,6 @@
 package com.backend.commitoclock.notification.infra.concurrent
 
-import com.backend.commitoclock.notification.domain.NotificationTarget
+import com.backend.commitoclock.notification.domain.model.NotificationTarget
 
 interface NotificationTargetQueue {
     fun add(target: NotificationTarget)
