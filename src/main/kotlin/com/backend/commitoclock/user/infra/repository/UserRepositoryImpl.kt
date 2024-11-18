@@ -6,19 +6,24 @@ import com.backend.commitoclock.user.domain.repository.UserRepository
 import com.backend.commitoclock.user.infra.mongo.NotificationPreference
 import com.backend.commitoclock.user.infra.mongo.UserCollection
 import com.backend.commitoclock.user.infra.mongo.UserMongoRepository
+import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Repository
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 
 @Repository
 class UserRepositoryImpl(
-    private val userMongoRepository: UserMongoRepository
+    private val userMongoRepository: UserMongoRepository,
+    private val mongoTemplate: MongoTemplate
 ) : UserRepository {
 
+    @Transactional(readOnly = true)
     override fun findAll(): List<User> {
         return userMongoRepository.findAll().map { it.toDomain() }
     }
 
+    @Transactional(readOnly = true)
     override fun findById(userId: String): User? {
         return userMongoRepository
             .findById(userId)
@@ -26,6 +31,7 @@ class UserRepositoryImpl(
             .orElse(null)
     }
 
+    @Transactional(readOnly = true)
     override fun findByUsername(username: String): User {
         return userMongoRepository
             .findByUsername(username)
@@ -33,6 +39,7 @@ class UserRepositoryImpl(
             .orElseThrow { CommitOClockException(HttpStatus.NOT_FOUND, "User not found") }
     }
 
+    @Transactional(readOnly = true)
     override fun findByGithubId(
         githubId: String
     ): User {
@@ -42,6 +49,7 @@ class UserRepositoryImpl(
             .orElseThrow { CommitOClockException(HttpStatus.NOT_FOUND, "User not found") }
     }
 
+    @Transactional(readOnly = true)
     override fun findByLastCommitDateAfter(
         date: LocalDateTime
     ): List<User> {
@@ -49,6 +57,7 @@ class UserRepositoryImpl(
         return userCollections.map { it.toDomain() }
     }
 
+    @Transactional
     override fun save(user: User): User {
         UserCollection(
             id = user.id,
@@ -68,14 +77,26 @@ class UserRepositoryImpl(
         }
     }
 
+    @Transactional(readOnly = true)
     override fun isExist(githubId: String): Boolean {
         return userMongoRepository.existsByGithubId(githubId)
     }
 
+    @Transactional(readOnly = true)
     override fun findAllByPreferredTime(currentHour: Int): List<User> {
         return userMongoRepository
             .findAllByNotificationPreferences_PreferredTime(currentHour)
             .map { it.toDomain() }
+    }
+
+    @Transactional
+    override fun saveAll(users: List<User>) {
+        val bulkOps = mongoTemplate.bulkOps(
+            org.springframework.data.mongodb.core.BulkOperations.BulkMode.UNORDERED,
+            UserCollection::class.java
+        )
+        users.forEach { user -> bulkOps.insert(UserCollection.from(user)) }
+        bulkOps.execute()
     }
 
 }

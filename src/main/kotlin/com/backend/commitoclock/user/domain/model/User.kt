@@ -1,6 +1,6 @@
 package com.backend.commitoclock.user.domain.model
 
-import com.backend.commitoclock.notification.domain.NotificationTarget
+import com.backend.commitoclock.notification.domain.model.NotificationTarget
 import com.backend.commitoclock.shared.model.NotificationMethod
 import java.time.LocalDateTime
 
@@ -27,7 +27,8 @@ data class User(
             socialMediaId = "",
             userId = id ?: "",
             commitDate = lastCommitDate.toString(),
-            notificationMethod = this.notificationPreferences.notificationMethod
+            notificationMethod = this.notificationPreferences.notificationMethod,
+            isNotified = false
         )
     }
 }

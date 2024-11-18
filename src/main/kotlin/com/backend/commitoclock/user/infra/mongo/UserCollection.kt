@@ -25,6 +25,18 @@ data class UserCollection(
             notificationPreferences = notificationPreferences.toDomain()
         )
     }
+
+    companion object {
+        fun from(user: User): UserCollection {
+            return UserCollection(
+                id = user.id,
+                username = user.username,
+                githubId = user.githubId,
+                lastCommitDate = user.lastCommitDate,
+                notificationPreferences = NotificationPreference.from(user.notificationPreferences)
+            )
+        }
+    }
 }
 
 data class NotificationPreference(
@@ -42,6 +54,18 @@ data class NotificationPreference(
             socialMediaId = socialMediaId,
             notificationMethod = notificationMethod
         )
+    }
+
+    companion object {
+        fun from(domain: NotificationPreferenceDomain): NotificationPreference {
+            return NotificationPreference(
+                enableDailyReminder = domain.enableDailyReminder,
+                preferredTime = domain.preferredTime,
+                phoneNumber = domain.phoneNumber,
+                socialMediaId = domain.socialMediaId,
+                notificationMethod = domain.notificationMethod
+            )
+        }
     }
 }
 
