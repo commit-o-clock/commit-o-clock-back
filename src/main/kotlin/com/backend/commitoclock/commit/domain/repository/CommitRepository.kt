@@ -8,5 +8,5 @@ interface CommitRepository {
         date: String,
         isNotified: Boolean
     ): List<Commit>
-    fun updateAll(targetCommits: List<Commit>)
+    fun saveAll(commits: List<Commit>)
 }

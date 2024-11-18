@@ -6,9 +6,5 @@ class Commit(
     val githubId: String,
     val commitDate: String,
     val commitCount: Int,
-    var isNotified: Boolean
 ) {
-    fun makeNotified() {
-        this.isNotified = true
-    }
 }

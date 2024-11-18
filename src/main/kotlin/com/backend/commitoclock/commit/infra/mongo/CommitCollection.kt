@@ -3,6 +3,7 @@ package com.backend.commitoclock.commit.infra.mongo
 import com.backend.commitoclock.commit.domain.model.Commit
 import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Document(collection = "commits")
 data class CommitCollection(
@@ -11,8 +12,7 @@ data class CommitCollection(
     val githubId: String,
     val commitDate: String,
     val commitCount: Int,
-    val isNotified: Boolean,
-    val createdAt: String = LocalDateTime.now().toString(),
+    val createdAt: String = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE),
 ) {
     companion object {
         fun from(domain: Commit): CommitCollection {
@@ -22,7 +22,6 @@ data class CommitCollection(
                 githubId = domain.githubId,
                 commitDate = domain.commitDate,
                 commitCount = domain.commitCount,
-                isNotified = domain.isNotified,
             )
         }
     }
@@ -34,7 +33,6 @@ data class CommitCollection(
             githubId = githubId,
             commitDate = commitDate,
             commitCount = commitCount,
-            isNotified = isNotified,
         )
     }
 }

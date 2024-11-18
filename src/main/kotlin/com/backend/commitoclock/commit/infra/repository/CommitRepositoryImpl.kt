@@ -6,22 +6,23 @@ import com.backend.commitoclock.commit.infra.mongo.CommitCollection
 import com.backend.commitoclock.commit.infra.mongo.CommitMongoRepository
 import org.springframework.data.mongodb.core.BulkOperations
 import org.springframework.data.mongodb.core.MongoTemplate
-import org.springframework.data.mongodb.core.query.Criteria
-import org.springframework.data.mongodb.core.query.Query
-import org.springframework.data.mongodb.core.query.Update
 import org.springframework.stereotype.Repository
+import org.springframework.transaction.annotation.Transactional
 
 @Repository
 class CommitRepositoryImpl(
     private val commitMongoRepository: CommitMongoRepository,
     private val mongoTemplate: MongoTemplate
 ) : CommitRepository {
+
+    @Transactional
     override fun save(commit: Commit): Commit {
         return commitMongoRepository
             .save(CommitCollection.from(commit))
             .toDomain()
     }
 
+    @Transactional(readOnly = true)
     override fun findByUserIdAndCommitDateAndIsNotified(
         date: String,
         isNotified: Boolean
@@ -31,22 +32,13 @@ class CommitRepositoryImpl(
             .map { it.toDomain() }
     }
 
-    override fun updateAll(targetCommits: List<Commit>) {
+    @Transactional
+    override fun saveAll(commits: List<Commit>) {
         val bulkOps = mongoTemplate.bulkOps(
             BulkOperations.BulkMode.UNORDERED,
             CommitCollection::class.java
         )
-        targetCommits.forEach { commit ->
-            val query = Query(Criteria.where("id").`is`(commit.id))
-            val update = Update()
-                .set("userId", commit.userId)
-                .set("githubId", commit.githubId)
-                .set("commitDate", commit.commitDate)
-                .set("commitCount", commit.commitCount)
-                .set("isNotified", commit.isNotified)
-
-            bulkOps.upsert(query, update)
-        }
+        commits.forEach { commit -> bulkOps.insert(CommitCollection.from(commit)) }
         bulkOps.execute()
     }
 
