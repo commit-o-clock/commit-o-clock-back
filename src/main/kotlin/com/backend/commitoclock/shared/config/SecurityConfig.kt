@@ -10,9 +10,10 @@ import org.springframework.security.web.SecurityFilterChain
 class SecurityConfig {
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain = http.csrf { it.disable() }
-            .authorizeHttpRequests { it
-                    .allowedPath()
-                    .anyRequestAllowed()
+        .authorizeHttpRequests {
+            it
+                .allowedPath()
+                .anyRequestAllowed()
             }
             .formLogin { it.disable() }
             .httpBasic { it.disable() }
@@ -21,7 +22,8 @@ class SecurityConfig {
     private fun AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry.allowedPath() =
         this.requestMatchers(
             "/swagger-ui/**",
-            "/v3/api-docs/**"
+            "/v3/api-docs/**",
+            "/*"
         ).permitAll()
 
     private fun AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry.anyRequestAllowed() =
