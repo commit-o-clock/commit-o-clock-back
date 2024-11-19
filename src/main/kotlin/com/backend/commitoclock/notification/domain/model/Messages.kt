@@ -48,9 +48,9 @@ enum class Messages(
     companion object {
         fun getMessage(
             name: String,
-            language: String
+            language: Countries
         ): String {
-            return if (language == "korean")
+            return if (language == Countries.KOREA)
                 entries.toTypedArray().random().koreanVersion.format(name)
             else entries.toTypedArray().random().englishVersion.format(name)
         }

@@ -2,6 +2,7 @@ package com.backend.commitoclock.notification.domain.service
 
 import com.backend.commitoclock.commit.service.CommitNotificationProcessor
 import com.backend.commitoclock.notification.domain.gateway.NotificationGateway
+import com.backend.commitoclock.notification.domain.model.Countries
 import com.backend.commitoclock.notification.domain.model.Messages
 import com.backend.commitoclock.notification.domain.model.NotificationTarget
 import com.backend.commitoclock.notification.infra.concurrent.NotificationTargetQueue
@@ -27,12 +28,13 @@ class NotificationSendService(
             notificationTargetQueue
         )
         validTargets.forEach { target ->
-            val message = Messages.getMessage(target.username, "korean")
+            val language = Countries.KOREA
+            val message = Messages.getMessage(target.username, language)
             val result = notificationGateway.sendNotification(
                 target.phoneNumber,
                 target.username,
                 message,
-                target.notificationMethod
+                language
             )
             if (result) log(target)
         }

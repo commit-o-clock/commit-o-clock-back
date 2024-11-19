@@ -1,6 +1,6 @@
 package com.backend.commitoclock.notification.domain.gateway
 
-import com.backend.commitoclock.shared.model.NotificationMethod
+import com.backend.commitoclock.notification.domain.model.Countries
 import org.springframework.stereotype.Component
 
 @Component
@@ -9,6 +9,6 @@ interface NotificationGateway {
         phoneNumber: String,
         username: String,
         message: String,
-        notificationMethod: NotificationMethod
+        language: Countries,
     ): Boolean
 }
