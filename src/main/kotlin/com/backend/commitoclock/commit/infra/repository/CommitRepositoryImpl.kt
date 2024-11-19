@@ -23,12 +23,9 @@ class CommitRepositoryImpl(
     }
 
     @Transactional(readOnly = true)
-    override fun findByUserIdAndCommitDateAndIsNotified(
-        date: String,
-        isNotified: Boolean
-    ): List<Commit> {
+    override fun findByCommitDate(date: String): List<Commit> {
         return commitMongoRepository
-            .findByCommitDateAndIsNotified(date, isNotified)
+            .findByCommitDate(date)
             .map { it.toDomain() }
     }
 

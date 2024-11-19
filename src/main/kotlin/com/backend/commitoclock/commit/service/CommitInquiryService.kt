@@ -11,9 +11,6 @@ class CommitInquiryService(
     fun getCommitsOfToday(
         date: String
     ): List<Commit> {
-        return commitRepository.findByUserIdAndCommitDateAndIsNotified(
-            date,
-            false
-        )
+        return commitRepository.findByCommitDate(date)
     }
 }

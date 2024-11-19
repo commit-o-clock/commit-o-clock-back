@@ -5,8 +5,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface CommitMongoRepository : MongoRepository<CommitCollection, String> {
-    fun findByCommitDateAndIsNotified(
-        date: String,
-        notified: Boolean
-    ): List<CommitCollection>
+    fun findByCommitDate(date: String): List<CommitCollection>
 }
