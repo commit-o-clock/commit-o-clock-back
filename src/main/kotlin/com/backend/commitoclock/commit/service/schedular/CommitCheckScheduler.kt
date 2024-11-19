@@ -4,7 +4,7 @@ import com.backend.commitoclock.commit.domain.model.Commit
 import com.backend.commitoclock.commit.service.CommitCheckService
 import com.backend.commitoclock.commit.service.CommitUpdateService
 import com.backend.commitoclock.notification.domain.model.NotificationTarget
-import com.backend.commitoclock.notification.service.NotificationSendService
+import com.backend.commitoclock.notification.domain.service.NotificationSendService
 import com.backend.commitoclock.notification.service.NotificationUpdateService
 import com.backend.commitoclock.user.domain.model.User
 import com.backend.commitoclock.user.service.UserInquiryService
