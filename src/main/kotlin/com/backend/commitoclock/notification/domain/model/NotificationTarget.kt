@@ -2,7 +2,7 @@ package com.backend.commitoclock.notification.domain.model
 
 import com.backend.commitoclock.shared.model.NotificationMethod
 
-class NotificationTarget(
+data class NotificationTarget(
     val id: String? = null,
     val username: String,
     val phoneNumber: String,
@@ -10,10 +10,8 @@ class NotificationTarget(
     val userId: String,
     val commitDate: String,
     val notificationMethod: NotificationMethod,
-    var isNotified: Boolean
+    val isNotified: Boolean
 ) {
-    fun makeNotified() {
-        this.isNotified = true
-    }
+    fun makeNotified() = copy(isNotified = true)
 }
 
