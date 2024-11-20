@@ -1,6 +1,6 @@
 package com.backend.commitoclock.commit.domain.model
 
-class Commit(
+data class Commit(
     val id: String?,
     val userId: String,
     val githubId: String,
