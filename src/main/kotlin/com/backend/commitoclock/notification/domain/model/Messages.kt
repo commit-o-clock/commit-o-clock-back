@@ -49,10 +49,9 @@ enum class Messages(
         fun getMessage(
             name: String,
             language: Countries
-        ): String {
-            return if (language == Countries.KOREA)
-                entries.toTypedArray().random().koreanVersion.format(name)
-            else entries.toTypedArray().random().englishVersion.format(name)
-        }
+        ): String =
+            takeIf { language == Countries.KOREA }
+                ?.let { entries.toTypedArray().random().koreanVersion.format(name) }
+                ?: entries.toTypedArray().random().englishVersion.format(name)
     }
 }
