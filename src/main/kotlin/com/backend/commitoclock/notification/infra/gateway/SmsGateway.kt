@@ -2,19 +2,21 @@ package com.backend.commitoclock.notification.infra.gateway
 
 import com.backend.commitoclock.notification.domain.gateway.NotificationGateway
 import com.backend.commitoclock.notification.domain.model.Countries
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClient
+import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
-import kotlin.random.Random
 
 private val logger = KotlinLogging.logger {}
+private val jsonParser = Json { ignoreUnknownKeys = true }
 
 @Component("smsGateway")
 class SmsGateway(
@@ -29,53 +31,71 @@ class SmsGateway(
         phoneNumber: String,
         username: String,
         message: String,
-        language: Countries,
+        language: Countries
     ): Boolean {
-        val response: ResponseEntity<SmsResponse> = restClient.post()
-            .uri(url)
-            .header(generateAuthorizationHeader(key, secret))
-            .body(
-                mapOf(
-                    "from" to sender,
-                    "to" to phoneNumber,
-                    "text" to message,
-                    "country" to language.countryCode
+
+        val jsonBody = jsonParser.encodeToString(
+            SmsRequest(
+                message = Message(
+                    from = sender,
+                    to = phoneNumber,
+                    text = message,
+                    country = language.countryCode
                 )
             )
-            .retrieve()
-            .toEntity(SmsResponse::class.java)
+        )
 
-        logger.info { "SMS sent to $phoneNumber" }
+        logger.debug { "Request JSON: $jsonBody" }
+
+        val response = restClient.post()
+            .uri(url)
+            .header("Authorization", generateHeader(key, secret))
+            .header("Content-Type", "application/json")
+            .body(jsonBody)
+            .retrieve()
+            .toEntity(String::class.java)
+
+        val smsResponse: SmsResponse = jsonParser.decodeFromString(response.body ?: "{}")
+        logger.info { "SMS sent to $phoneNumber with status ${response.statusCode}" }
         return response.statusCode.is2xxSuccessful
     }
 
-    fun generateAuthorizationHeader(
-        apiKey: String,
-        apiSecret: String,
-        algorithm: String = "HmacSHA256"
-    ): String {
-        val dateTime = ZonedDateTime.now().format(DateTimeFormatter.ISO_INSTANT)
-        val salt = generateRandomSalt(12, 64)
-        val data = dateTime + salt
-        val signature = createHmacSignature(data, apiSecret, algorithm)
-        return "Authorization: $algorithm apiKey=$apiKey, date=$dateTime, salt=$salt, signature=$signature"
+    private fun generateHeader(apiKey: String, apiSecret: String): String {
+        val dateTime = ZonedDateTime.now(ZoneOffset.UTC)
+            .truncatedTo(java.time.temporal.ChronoUnit.SECONDS)
+            .format(DateTimeFormatter.ISO_INSTANT)
+        val salt = generateRandomSalt(16)
+        val data = "$dateTime$salt"
+        val signature = createHmacSignature(data, apiSecret)
+
+        return "HMAC-SHA256 apiKey=$apiKey, date=$dateTime, salt=$salt, signature=$signature"
     }
 
-    fun generateRandomSalt(minLength: Int, maxLength: Int): String {
-        val length = Random.nextInt(minLength, maxLength + 1)
-        val saltBytes = ByteArray(length)
-        Random.nextBytes(saltBytes)
-        return Base64.getEncoder().encodeToString(saltBytes)
-    }
-
-    fun createHmacSignature(data: String, secret: String, algorithm: String): String {
-        val mac = Mac.getInstance(algorithm)
-        val secretKeySpec = SecretKeySpec(secret.toByteArray(), algorithm)
+    private fun createHmacSignature(data: String, secret: String): String {
+        val mac = Mac.getInstance("HmacSHA256")
+        val secretKeySpec = SecretKeySpec(secret.toByteArray(Charsets.UTF_8), "HmacSHA256")
         mac.init(secretKeySpec)
-        val hmacBytes = mac.doFinal(data.toByteArray())
-        return Base64.getEncoder().encodeToString(hmacBytes)
+        val hmacBytes = mac.doFinal(data.toByteArray(Charsets.UTF_8))
+        return hmacBytes.joinToString("") { "%02x".format(it) }
     }
 
+    private fun generateRandomSalt(length: Int): String {
+        val charset = "1234567890abcdefghijklmnopqrstuvwxyz"
+        return (1..length).map { charset.random() }.joinToString("")
+    }
+
+    @Serializable
+    data class SmsRequest(val message: Message)
+
+    @Serializable
+    data class Message(
+        val from: String,
+        val to: String,
+        val text: String,
+        val country: String
+    )
+
+    @Serializable
     data class SmsResponse(
         val to: String,
         val from: String,
@@ -84,6 +104,7 @@ class SmsGateway(
         val messageId: String,
         val statusCode: String,
         val statusMessage: String,
-        val accountId: String
-    ) {}
+        val accountId: String,
+        val groupId: String? = null
+    )
 }
