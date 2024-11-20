@@ -5,6 +5,7 @@ import com.backend.commitoclock.notification.domain.repository.NotificationRepos
 import com.backend.commitoclock.notification.infra.mongo.NotificationCollection
 import com.backend.commitoclock.notification.infra.mongo.NotificationMongoRepository
 import org.springframework.data.mongodb.core.BulkOperations
+import org.springframework.data.mongodb.core.BulkOperations.BulkMode.UNORDERED
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
@@ -23,7 +24,7 @@ class NotificationRepositoryImpl(
     @Transactional
     override fun saveAll(notifications: List<NotificationTarget>) {
         val bulkOps = mongoTemplate.bulkOps(
-            BulkOperations.BulkMode.UNORDERED,
+            UNORDERED,
             NotificationCollection::class.java
         )
         notifications.forEach { notification ->
@@ -39,7 +40,7 @@ class NotificationRepositoryImpl(
     @Transactional
     override fun updateAll(notificationTargets: List<NotificationTarget>) {
         val bulkOps = mongoTemplate.bulkOps(
-            org.springframework.data.mongodb.core.BulkOperations.BulkMode.UNORDERED,
+            UNORDERED,
             NotificationCollection::class.java
         )
         notificationTargets.forEach { notificationTarget ->

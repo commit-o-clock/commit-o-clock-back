@@ -39,7 +39,7 @@ class SmsGateway(
                     "from" to sender,
                     "to" to phoneNumber,
                     "text" to message,
-                    "country" to language.countryCode()
+                    "country" to language.countryCode
                 )
             )
             .retrieve()

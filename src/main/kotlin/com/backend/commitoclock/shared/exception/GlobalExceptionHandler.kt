@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 @RestControllerAdvice
 class GlobalExceptionHandler {
     @ExceptionHandler(CommitOClockException::class)
-    fun handleCommitOClockException(ex: CommitOClockException): ResponseEntity<ErrorResponse> {
-        val response =
-            ErrorResponse(status = ex.status.value(), message = ex.message ?: "Unexpected error")
-        return ResponseEntity(response, ex.status)  // status 값을 HTTP 응답 코드로 사용
-    }
+    fun handleCommitOClockException(ex: CommitOClockException): ResponseEntity<ErrorResponse> =
+        ErrorResponse(status = ex.status.value(), message = ex.message ?: "Unexpected error")
+        .let {
+            ResponseEntity(it, ex.status)
+        }
 }
 
 data class ErrorResponse(
