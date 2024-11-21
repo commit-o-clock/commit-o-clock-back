@@ -33,7 +33,6 @@ class NotificationSendService(
                 target.phoneNumber,
                 target.username,
                 message,
-                target.country,
                 target.countryCode
             )
             if (result) log(target)
