@@ -1,5 +1,6 @@
 package com.backend.commitoclock.user.api.payload
 
+import com.backend.commitoclock.shared.model.Countries
 import com.backend.commitoclock.shared.model.NotificationMethod
 import com.backend.commitoclock.user.service.command.UserRegistrationCommand
 import jakarta.validation.constraints.NotNull
@@ -12,6 +13,7 @@ class UserRegistrationRequest(
     @field:Size(min = 1, max = 23) private val preferredTime: Int,
     @field:NotNull private val countryCode: Int,
     @field:NotNull private val phoneNumber: String,
+    @field:NotNull private val country: Countries,
     private val socialMediaId: String,
     @field:NotNull private val notificationMethod: NotificationMethod
 ) {
@@ -24,6 +26,7 @@ class UserRegistrationRequest(
             countryCode = countryCode,
             phoneNumber = phoneNumber,
             socialMediaId = socialMediaId,
+            country = country,
             notificationMethod = notificationMethod
         )
     }

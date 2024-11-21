@@ -64,6 +64,8 @@ class UserRepositoryImpl(
             username = user.username,
             githubId = user.githubId,
             lastCommitDate = user.lastCommitDate,
+            country = user.country,
+            countryCode = user.countryCode,
             notificationPreferences =
             NotificationPreference(
                 enableDailyReminder = user.notificationPreferences.enableDailyReminder,

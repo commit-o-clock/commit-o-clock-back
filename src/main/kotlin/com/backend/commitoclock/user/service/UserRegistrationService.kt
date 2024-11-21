@@ -21,6 +21,8 @@ class UserRegistrationService(
             User(
                 username = command.username,
                 githubId = command.githubId,
+                country = command.country,
+                countryCode = command.countryCode,
                 notificationPreferences = NotificationPreferenceDomain(
                     enableDailyReminder = command.enableDailyReminder,
                     preferredTime = command.preferredTime,

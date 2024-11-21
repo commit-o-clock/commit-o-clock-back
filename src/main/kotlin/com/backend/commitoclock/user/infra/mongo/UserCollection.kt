@@ -1,5 +1,6 @@
 package com.backend.commitoclock.user.infra.mongo
 
+import com.backend.commitoclock.shared.model.Countries
 import com.backend.commitoclock.shared.model.NotificationMethod
 import com.backend.commitoclock.user.domain.model.NotificationPreferenceDomain
 import com.backend.commitoclock.user.domain.model.User
@@ -14,6 +15,8 @@ data class UserCollection(
     val username: String,
     val githubId: String,
     val lastCommitDate: LocalDateTime? = null,
+    val country: Countries,
+    val countryCode: Int,
     val notificationPreferences: NotificationPreference
 ) {
     fun toDomain(): User {
@@ -22,6 +25,8 @@ data class UserCollection(
             username = username,
             githubId = githubId,
             lastCommitDate = lastCommitDate,
+            country = country,
+            countryCode = countryCode,
             notificationPreferences = notificationPreferences.toDomain()
         )
     }
@@ -33,6 +38,8 @@ data class UserCollection(
                 username = user.username,
                 githubId = user.githubId,
                 lastCommitDate = user.lastCommitDate,
+                country = user.country,
+                countryCode = user.countryCode,
                 notificationPreferences = NotificationPreference.from(user.notificationPreferences)
             )
         }
