@@ -2,11 +2,11 @@ package com.backend.commitoclock.notification.infra.gateway
 
 import com.backend.commitoclock.notification.domain.gateway.NotificationGateway
 import com.backend.commitoclock.notification.domain.model.Countries
+import io.github.cdimascio.dotenv.Dotenv
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import mu.KotlinLogging
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClient
 import java.time.ZoneOffset
@@ -20,12 +20,13 @@ private val jsonParser = Json { ignoreUnknownKeys = true }
 
 @Component("smsGateway")
 class SmsGateway(
-    @Value("\${sms.url}") private val url: String,
-    @Value("\${sms.key}") private val key: String,
-    @Value("\${sms.secret}") private val secret: String,
-    @Value("\${sms.sender}") private val sender: String,
-    private val restClient: RestClient
+    private val restClient: RestClient,
+    private val dotenv: Dotenv
 ) : NotificationGateway {
+    private val url = dotenv["SMS_URL"]
+    private val key = dotenv["SMS_KEY"]
+    private val secret = dotenv["SMS_SECRET"]
+    private val sender = dotenv["SMS_SENDER"]
 
     override fun sendNotification(
         phoneNumber: String,
