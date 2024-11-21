@@ -12,12 +12,10 @@ class SecurityConfig {
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain = http.csrf { it.disable() }
         .authorizeHttpRequests {
-            it
-                .allowedPath()
-                .anyRequestAllowed()
-            }
-            .formLogin { it.disable() }
-            .httpBasic { it.disable() }
+            it.anyRequest().permitAll()
+        }
+        .formLogin { it.disable() }
+        .httpBasic { it.disable() }
         .build()
 
     private fun AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry.allowedPath() =
