@@ -1,4 +1,4 @@
-package com.backend.commitoclock.notification.domain.model
+package com.backend.commitoclock.shared.model
 
 enum class Countries(val countryCode: String) {
     KOREA("82"),
