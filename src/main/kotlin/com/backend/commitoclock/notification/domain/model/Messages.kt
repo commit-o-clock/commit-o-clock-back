@@ -1,5 +1,7 @@
 package com.backend.commitoclock.notification.domain.model
 
+import com.backend.commitoclock.shared.model.Countries
+
 enum class Messages(
     private val koreanVersion: String,
     private val englishVersion: String
