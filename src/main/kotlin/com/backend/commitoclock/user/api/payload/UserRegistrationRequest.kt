@@ -1,6 +1,7 @@
 package com.backend.commitoclock.user.api.payload
 
 import com.backend.commitoclock.shared.model.Countries
+import com.backend.commitoclock.shared.model.CountryCode
 import com.backend.commitoclock.shared.model.NotificationMethod
 import com.backend.commitoclock.user.service.command.UserRegistrationCommand
 import jakarta.validation.constraints.NotNull
@@ -11,7 +12,7 @@ class UserRegistrationRequest(
     @field:NotNull private val githubId: String,
     @field:NotNull private val enableDailyReminder: Boolean,
     @field:Size(min = 1, max = 23) private val preferredTime: Int,
-    @field:NotNull private val countryCode: Int,
+    @field:NotNull private val countryCode: CountryCode,
     @field:NotNull private val phoneNumber: String,
     @field:NotNull private val country: Countries,
     private val socialMediaId: String,

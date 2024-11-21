@@ -2,6 +2,7 @@ package com.backend.commitoclock.user.domain.model
 
 import com.backend.commitoclock.shared.model.Countries
 import com.backend.commitoclock.notification.domain.model.NotificationTarget
+import com.backend.commitoclock.shared.model.CountryCode
 import com.backend.commitoclock.shared.model.NotificationMethod
 import java.time.LocalDateTime
 
@@ -10,7 +11,7 @@ data class User(
     val username: String,
     val githubId: String,
     val country: Countries,
-    val countryCode: Int,
+    val countryCode: CountryCode,
     var lastCommitDate: LocalDateTime? = null,
     val commitData: MutableMap<String, Int> = mutableMapOf(),
     val notificationPreferences: NotificationPreferenceDomain
