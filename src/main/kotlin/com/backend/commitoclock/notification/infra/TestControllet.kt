@@ -12,9 +12,11 @@ class TestController(
 ) {
     @GetMapping
     fun test() {
-        smsGateway.sendNotification("010-8498-3484", "test", Messages.getMessage("현수", Countries
-            .USA),
-            Countries
-            .KOREA)
+        smsGateway.sendNotification(
+            "010-8498-3484",
+            "test",
+            Messages.getMessage("현수", Countries.USA),
+            82
+        )
     }
 }

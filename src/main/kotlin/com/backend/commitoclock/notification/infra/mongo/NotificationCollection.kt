@@ -2,6 +2,7 @@ package com.backend.commitoclock.notification.infra.mongo
 
 import com.backend.commitoclock.notification.domain.model.NotificationTarget
 import com.backend.commitoclock.shared.model.Countries
+import com.backend.commitoclock.shared.model.CountryCode
 import com.backend.commitoclock.shared.model.NotificationMethod
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
@@ -21,7 +22,7 @@ data class NotificationCollection(
     val notificationMethod: NotificationMethod,
     var isNotified: Boolean,
     val country: Countries,
-    val countryCode: Int,
+    val countryCode: CountryCode,
     val updatedAt: String = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE),
     val createdAt: String = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE),
 ) {

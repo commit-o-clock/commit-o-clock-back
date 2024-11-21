@@ -1,7 +1,7 @@
 package com.backend.commitoclock.notification.infra.gateway
 
 import com.backend.commitoclock.notification.domain.gateway.NotificationGateway
-import com.backend.commitoclock.shared.model.Countries
+import com.backend.commitoclock.shared.model.CountryCode
 import io.github.cdimascio.dotenv.Dotenv
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
@@ -32,7 +32,7 @@ class SmsGateway(
         phoneNumber: String,
         username: String,
         message: String,
-        language: Countries
+        countryCode: CountryCode
     ): Boolean {
 
         val jsonBody = jsonParser.encodeToString(
@@ -41,7 +41,7 @@ class SmsGateway(
                     from = sender,
                     to = phoneNumber,
                     text = message,
-                    country = language.countryCode
+                    country = countryCode.code
                 )
             )
         )
