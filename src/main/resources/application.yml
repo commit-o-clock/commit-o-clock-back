@@ -7,8 +7,8 @@ springdoc:
 spring:
   data:
     mongodb:
-      host: ${MONGO_DB_HOST}
-      port: ${MONGO_DB_PORT}
-      database: ${MONGO_DB_DATABASE}
-      username: ${MONGO_DB_USERNAME}
-      password: ${MONGO_DB_PASSWORD}
+      uri: mongodb://${MONGO_DB_USERNAME}:${MONGO_DB_PASSWORD}@${MONGO_DB_HOST}:${MONGO_DB_PORT}/${MONGO_DB_DATABASE}?authSource=admin
+
+logging:
+  level:
+    org.mongodb.driver: DEBUG
