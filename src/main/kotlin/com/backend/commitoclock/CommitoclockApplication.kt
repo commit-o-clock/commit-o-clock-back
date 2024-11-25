@@ -3,8 +3,10 @@ package com.backend.commitoclock
 import io.github.cdimascio.dotenv.Dotenv
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.scheduling.annotation.EnableScheduling
 
 @SpringBootApplication
+@EnableScheduling
 class CommitoclockApplication
 
 fun main(args: Array<String>) {

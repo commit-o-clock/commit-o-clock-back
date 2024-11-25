@@ -7,6 +7,9 @@ import com.backend.commitoclock.user.infra.mongo.NotificationPreference
 import com.backend.commitoclock.user.infra.mongo.UserCollection
 import com.backend.commitoclock.user.infra.mongo.UserMongoRepository
 import org.springframework.data.mongodb.core.MongoTemplate
+import org.springframework.data.mongodb.core.query.Criteria
+import org.springframework.data.mongodb.core.query.Query
+import org.springframework.data.mongodb.core.query.Update
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
@@ -71,7 +74,6 @@ class UserRepositoryImpl(
                 enableDailyReminder = user.notificationPreferences.enableDailyReminder,
                 preferredTime = user.notificationPreferences.preferredTime,
                 phoneNumber = user.notificationPreferences.phoneNumber,
-                socialMediaId = user.notificationPreferences.socialMediaId,
                 notificationMethod = user.notificationPreferences.notificationMethod
             )
         ).let {
@@ -101,4 +103,14 @@ class UserRepositoryImpl(
         bulkOps.execute()
     }
 
+    @Transactional
+    override fun updateFields(
+        userId: String,
+        updateFields: Map<String, Any?>
+    ) {
+        val query = Query(Criteria.where("_id").`is`(userId))
+        val update = Update()
+        updateFields.forEach { (key, value) -> update.set(key, value) }
+        mongoTemplate.updateFirst(query, update, UserCollection::class.java)
+    }
 }

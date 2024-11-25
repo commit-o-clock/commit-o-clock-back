@@ -51,7 +51,6 @@ data class NotificationPreference(
     val enableDailyReminder: Boolean,
     val preferredTime: Int,
     val phoneNumber: String,
-    val socialMediaId: String,
     val notificationMethod: NotificationMethod
 ) {
     fun toDomain(): NotificationPreferenceDomain {
@@ -59,7 +58,6 @@ data class NotificationPreference(
             enableDailyReminder = enableDailyReminder,
             preferredTime = preferredTime,
             phoneNumber = phoneNumber,
-            socialMediaId = socialMediaId,
             notificationMethod = notificationMethod
         )
     }
@@ -70,7 +68,6 @@ data class NotificationPreference(
                 enableDailyReminder = domain.enableDailyReminder,
                 preferredTime = domain.preferredTime,
                 phoneNumber = domain.phoneNumber,
-                socialMediaId = domain.socialMediaId,
                 notificationMethod = domain.notificationMethod
             )
         }

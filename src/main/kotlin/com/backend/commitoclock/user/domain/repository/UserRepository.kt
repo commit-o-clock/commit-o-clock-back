@@ -13,4 +13,5 @@ interface UserRepository {
     fun isExist(githubId: String): Boolean
     fun findAllByPreferredTime(currentHour: Int): List<User>
     fun saveAll(users: List<User>)
+    fun updateFields(userId: String, updateFields: Map<String, Any?>)
 }

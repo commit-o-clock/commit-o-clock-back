@@ -12,6 +12,5 @@ data class UserRegistrationCommand(
     val countryCode: CountryCode,
     val country: Countries,
     val phoneNumber: String,
-    val socialMediaId: String,
-    val notificationMethod: NotificationMethod
+    val notificationMethod: NotificationMethod,
 ) {}

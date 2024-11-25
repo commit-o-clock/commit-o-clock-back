@@ -15,7 +15,6 @@ class UserRegistrationRequest(
     @field:NotNull private val countryCode: CountryCode,
     @field:NotNull private val phoneNumber: String,
     @field:NotNull private val country: Countries,
-    private val socialMediaId: String,
     @field:NotNull private val notificationMethod: NotificationMethod
 ) {
     fun toCommand(): UserRegistrationCommand {
@@ -26,7 +25,6 @@ class UserRegistrationRequest(
             preferredTime = preferredTime,
             countryCode = countryCode,
             phoneNumber = phoneNumber,
-            socialMediaId = socialMediaId,
             country = country,
             notificationMethod = notificationMethod
         )
