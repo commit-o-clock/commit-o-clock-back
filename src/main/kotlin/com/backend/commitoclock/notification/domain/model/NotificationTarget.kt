@@ -10,7 +10,6 @@ data class NotificationTarget(
     val phoneNumber: String,
     val countryCode: CountryCode,
     val country: Countries,
-    val socialMediaId: String,
     val userId: String,
     val commitDate: String,
     val notificationMethod: NotificationMethod,

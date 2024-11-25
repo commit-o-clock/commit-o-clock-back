@@ -8,7 +8,6 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.Locale.IsoCountryCode
 
 @Document("notification")
 data class NotificationCollection(
@@ -16,7 +15,6 @@ data class NotificationCollection(
     val id: String? = null,
     val username: String,
     val phoneNumber: String,
-    val socialMediaId: String,
     val userId: String,
     val commitDate: String,
     val notificationMethod: NotificationMethod,
@@ -30,7 +28,6 @@ data class NotificationCollection(
         id = id,
         username = username,
         phoneNumber = phoneNumber,
-        socialMediaId = socialMediaId,
         userId = userId,
         commitDate = commitDate,
         country = country,
@@ -44,7 +41,6 @@ data class NotificationCollection(
             id = notification.id,
             username = notification.username,
             phoneNumber = notification.phoneNumber,
-            socialMediaId = notification.socialMediaId,
             userId = notification.userId,
             commitDate = notification.commitDate,
             notificationMethod = notification.notificationMethod,
