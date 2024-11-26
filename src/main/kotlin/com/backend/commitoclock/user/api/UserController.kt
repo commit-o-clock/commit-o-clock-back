@@ -1,6 +1,7 @@
 package com.backend.commitoclock.user.api
 
 import com.backend.commitoclock.shared.model.CommitOClockResponse
+import com.backend.commitoclock.user.api.payload.UserInformationResponse
 import com.backend.commitoclock.user.api.payload.UserModificationRequest
 import com.backend.commitoclock.user.api.payload.UserRegistrationRequest
 import com.backend.commitoclock.user.service.UserInquiryService
@@ -45,5 +46,14 @@ class UserController(
     ): ResponseEntity<Void> {
         userModificationService.updateUser(userId, request.toCommand())
         return ResponseEntity.ok().build()
+    }
+
+    @GetMapping("/github/{githubId}")
+    @Operation(summary = "Get user information by GitHub ID")
+    fun getUserByGithubId(
+        @PathVariable githubId: String
+    ): ResponseEntity<CommitOClockResponse<UserInformationResponse>> {
+        val userInfo = userInquiryService.getUserByGithubId(githubId)
+        return ResponseEntity.ok(CommitOClockResponse(message = userInfo.toResponse()))
     }
 }
