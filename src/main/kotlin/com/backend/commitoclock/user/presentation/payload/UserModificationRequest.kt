@@ -1,9 +1,9 @@
-package com.backend.commitoclock.user.api.payload
+package com.backend.commitoclock.user.presentation.payload
 
 import com.backend.commitoclock.shared.model.Countries
 import com.backend.commitoclock.shared.model.CountryCode
 import com.backend.commitoclock.shared.model.NotificationMethod
-import com.backend.commitoclock.user.service.command.UserModificationCommand
+import com.backend.commitoclock.user.application.dto.command.UserModificationCommand
 import com.mongodb.lang.Nullable
 import jakarta.validation.constraints.Size
 

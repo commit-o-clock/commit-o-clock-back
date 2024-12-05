@@ -1,4 +1,4 @@
-package com.backend.commitoclock.user.service.command
+package com.backend.commitoclock.user.application.dto.command
 
 import com.backend.commitoclock.shared.model.Countries
 import com.backend.commitoclock.shared.model.CountryCode

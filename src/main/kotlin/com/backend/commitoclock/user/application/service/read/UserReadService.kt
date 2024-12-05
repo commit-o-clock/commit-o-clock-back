@@ -1,23 +1,32 @@
-package com.backend.commitoclock.user.service
+package com.backend.commitoclock.user.application.service.read
 
+import com.backend.commitoclock.user.application.dto.result.UserInformationResult
 import com.backend.commitoclock.user.domain.model.User
 import com.backend.commitoclock.user.domain.repository.UserRepository
-import com.backend.commitoclock.user.service.result.UserInformationResult
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
-class UserInquiryService(
+class UserReadService(
     private val userRepository: UserRepository
 ) {
+    @Transactional(readOnly = true)
     fun findAllUsers() = userRepository.findAll()
+
+    @Transactional(readOnly = true)
     fun getUser(userId: String) = userRepository.findById(userId)
+
+    @Transactional(readOnly = true)
     fun checkDuplication(githubId: String): Boolean {
         return userRepository.isExist(githubId)
     }
+
+    @Transactional(readOnly = true)
     fun getTargetUsers(currentHour: Int): List<User> {
         return userRepository.findAllByPreferredTime(currentHour)
     }
 
+    @Transactional(readOnly = true)
     fun getUserByGithubId(githubId: String): UserInformationResult {
         return userRepository.findByGithubId(githubId).let {
             UserInformationResult(

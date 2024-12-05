@@ -1,9 +1,9 @@
-package com.backend.commitoclock.user.service.result
+package com.backend.commitoclock.user.application.dto.result
 
 import com.backend.commitoclock.shared.model.Countries
 import com.backend.commitoclock.shared.model.CountryCode
-import com.backend.commitoclock.user.api.payload.UserInformationResponse
 import com.backend.commitoclock.user.domain.model.NotificationPreferenceDomain
+import com.backend.commitoclock.user.presentation.payload.UserInformationResponse
 import java.time.LocalDateTime
 
 class UserInformationResult(

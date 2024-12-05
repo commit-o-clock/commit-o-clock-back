@@ -1,4 +1,4 @@
-package com.backend.commitoclock.user.infra.mongo
+package com.backend.commitoclock.user.infra.persistence.mongo
 
 import com.backend.commitoclock.shared.model.Countries
 import com.backend.commitoclock.shared.model.CountryCode

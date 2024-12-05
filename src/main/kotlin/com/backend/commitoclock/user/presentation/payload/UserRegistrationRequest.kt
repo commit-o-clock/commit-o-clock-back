@@ -1,9 +1,9 @@
-package com.backend.commitoclock.user.api.payload
+package com.backend.commitoclock.user.presentation.payload
 
 import com.backend.commitoclock.shared.model.Countries
 import com.backend.commitoclock.shared.model.CountryCode
 import com.backend.commitoclock.shared.model.NotificationMethod
-import com.backend.commitoclock.user.service.command.UserRegistrationCommand
+import com.backend.commitoclock.user.application.dto.command.UserRegistrationCommand
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 

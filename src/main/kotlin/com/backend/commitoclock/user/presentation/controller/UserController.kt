@@ -1,12 +1,12 @@
-package com.backend.commitoclock.user.api
+package com.backend.commitoclock.user.presentation.controller
 
 import com.backend.commitoclock.shared.model.CommitOClockResponse
-import com.backend.commitoclock.user.api.payload.UserInformationResponse
-import com.backend.commitoclock.user.api.payload.UserModificationRequest
-import com.backend.commitoclock.user.api.payload.UserRegistrationRequest
-import com.backend.commitoclock.user.service.UserInquiryService
-import com.backend.commitoclock.user.service.UserModificationService
-import com.backend.commitoclock.user.service.UserRegistrationService
+import com.backend.commitoclock.user.application.service.read.UserReadService
+import com.backend.commitoclock.user.application.service.UserModificationService
+import com.backend.commitoclock.user.application.service.UserRegistrationService
+import com.backend.commitoclock.user.presentation.payload.UserInformationResponse
+import com.backend.commitoclock.user.presentation.payload.UserModificationRequest
+import com.backend.commitoclock.user.presentation.payload.UserRegistrationRequest
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/v1/users")
 @RestController
 class UserController(
-    private val userInquiryService: UserInquiryService,
+    private val userReadService: UserReadService,
     private val userRegistrationService: UserRegistrationService,
     private val userModificationService: UserModificationService
 ) {
@@ -25,7 +25,7 @@ class UserController(
     fun checkDuplication(
         @PathVariable githubId: String
     ): ResponseEntity<CommitOClockResponse<Boolean>> {
-        val isAvailable = !userInquiryService.checkDuplication(githubId)
+        val isAvailable = !userReadService.checkDuplication(githubId)
         return ResponseEntity.ok(CommitOClockResponse(message = isAvailable))
     }
 
@@ -53,7 +53,7 @@ class UserController(
     fun getUserByGithubId(
         @PathVariable githubId: String
     ): ResponseEntity<CommitOClockResponse<UserInformationResponse>> {
-        val userInfo = userInquiryService.getUserByGithubId(githubId)
+        val userInfo = userReadService.getUserByGithubId(githubId)
         return ResponseEntity.ok(CommitOClockResponse(message = userInfo.toResponse()))
     }
 }

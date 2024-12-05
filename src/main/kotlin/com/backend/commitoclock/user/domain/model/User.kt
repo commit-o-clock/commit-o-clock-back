@@ -4,7 +4,7 @@ import com.backend.commitoclock.notification.domain.model.NotificationTarget
 import com.backend.commitoclock.shared.model.Countries
 import com.backend.commitoclock.shared.model.CountryCode
 import com.backend.commitoclock.shared.model.NotificationMethod
-import com.backend.commitoclock.user.service.command.UserModificationCommand
+import com.backend.commitoclock.user.application.dto.command.UserModificationCommand
 import java.time.LocalDateTime
 
 data class User(

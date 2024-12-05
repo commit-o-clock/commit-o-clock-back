@@ -1,4 +1,4 @@
-package com.backend.commitoclock.user.api.payload
+package com.backend.commitoclock.user.presentation.payload
 
 import com.backend.commitoclock.shared.model.Countries
 import com.backend.commitoclock.shared.model.CountryCode

@@ -1,7 +1,7 @@
-package com.backend.commitoclock.user.service
+package com.backend.commitoclock.user.application.service
 
+import com.backend.commitoclock.user.application.dto.command.UserModificationCommand
 import com.backend.commitoclock.user.domain.repository.UserRepository
-import com.backend.commitoclock.user.service.command.UserModificationCommand
 import org.springframework.stereotype.Service
 
 @Service

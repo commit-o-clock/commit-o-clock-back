@@ -1,10 +1,10 @@
-package com.backend.commitoclock.user.service
+package com.backend.commitoclock.user.application.service
 
 import com.backend.commitoclock.shared.exception.CommitOClockException
+import com.backend.commitoclock.user.application.dto.command.UserRegistrationCommand
 import com.backend.commitoclock.user.domain.model.NotificationPreferenceDomain
 import com.backend.commitoclock.user.domain.model.User
 import com.backend.commitoclock.user.domain.repository.UserRepository
-import com.backend.commitoclock.user.service.command.UserRegistrationCommand
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
