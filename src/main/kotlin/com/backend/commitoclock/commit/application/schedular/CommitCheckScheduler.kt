@@ -1,14 +1,14 @@
-package com.backend.commitoclock.commit.service.schedular
+package com.backend.commitoclock.commit.application.schedular
 
+import com.backend.commitoclock.commit.application.service.CommitCheckService
+import com.backend.commitoclock.commit.application.service.write.CommitWriteService
 import com.backend.commitoclock.commit.domain.model.Commit
-import com.backend.commitoclock.commit.service.CommitCheckService
-import com.backend.commitoclock.commit.service.CommitUpdateService
+import com.backend.commitoclock.notification.application.service.write.NotificationWriteService
 import com.backend.commitoclock.notification.domain.model.NotificationTarget
 import com.backend.commitoclock.notification.domain.service.NotificationSendService
-import com.backend.commitoclock.notification.service.NotificationUpdateService
+import com.backend.commitoclock.user.application.service.read.UserReadService
+import com.backend.commitoclock.user.application.service.write.UserWriteService
 import com.backend.commitoclock.user.domain.model.User
-import com.backend.commitoclock.user.service.UserInquiryService
-import com.backend.commitoclock.user.service.UserUpdateService
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 import java.time.LocalDate
@@ -18,16 +18,16 @@ import java.time.format.DateTimeFormatter
 @Component
 class CommitCheckScheduler(
     private val commitCheckService: CommitCheckService,
-    private val userInquiryService: UserInquiryService,
-    private val userUpdateService: UserUpdateService,
-    private val commitUpdateService: CommitUpdateService,
+    private val userReadService: UserReadService,
+    private val userWriteService: UserWriteService,
+    private val commitWriteService: CommitWriteService,
     private val notificationSendService: NotificationSendService,
-    private val notificationUpdateService: NotificationUpdateService
+    private val notificationWriteService: NotificationWriteService
 ) {
     @Scheduled(cron = "0 0 * * * ?")
     fun stackNotification() {
         val today = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE)
-        val users = userInquiryService.getTargetUsers(LocalTime.now().hour)
+        val users = userReadService.getTargetUsers(LocalTime.now().hour)
 
         if (users.isEmpty()) {
             println("No users to process for hour ${LocalTime.now().hour}")
@@ -35,9 +35,9 @@ class CommitCheckScheduler(
         }
 
         val (usersToSave, commits, notifications) = processUsers(users, today)
-        saveInBatches(usersToSave, userUpdateService::saveAll)
-        saveInBatches(commits, commitUpdateService::saveAll)
-        saveInBatches(notifications, notificationUpdateService::saveAll)
+        saveInBatches(usersToSave, userWriteService::saveAll)
+        saveInBatches(commits, commitWriteService::saveAll)
+        saveInBatches(notifications, notificationWriteService::saveAll)
 
         notificationSendService.sendNotification(today)
     }

@@ -1,4 +1,4 @@
-package com.backend.commitoclock.commit.infra.mongo
+package com.backend.commitoclock.commit.infra.persistence.mongo
 
 import com.backend.commitoclock.commit.domain.model.Commit
 import org.springframework.data.mongodb.core.mapping.Document

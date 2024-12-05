@@ -1,4 +1,4 @@
-package com.backend.commitoclock.commit.infra.mongo
+package com.backend.commitoclock.commit.infra.persistence.mongo
 
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository

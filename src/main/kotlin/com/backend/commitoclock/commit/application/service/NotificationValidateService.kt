@@ -1,4 +1,4 @@
-package com.backend.commitoclock.commit.service
+package com.backend.commitoclock.commit.application.service
 
 import com.backend.commitoclock.notification.domain.model.NotificationTarget
 import org.springframework.stereotype.Service
