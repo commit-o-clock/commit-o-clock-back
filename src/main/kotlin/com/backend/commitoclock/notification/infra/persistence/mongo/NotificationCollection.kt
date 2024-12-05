@@ -1,4 +1,4 @@
-package com.backend.commitoclock.notification.infra.mongo
+package com.backend.commitoclock.notification.infra.persistence.mongo
 
 import com.backend.commitoclock.notification.domain.model.NotificationTarget
 import com.backend.commitoclock.shared.model.Countries

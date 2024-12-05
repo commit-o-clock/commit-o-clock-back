@@ -1,10 +1,9 @@
-package com.backend.commitoclock.notification.infra.repository
+package com.backend.commitoclock.notification.infra.persistence.repository
 
 import com.backend.commitoclock.notification.domain.model.NotificationTarget
 import com.backend.commitoclock.notification.domain.repository.NotificationRepository
-import com.backend.commitoclock.notification.infra.mongo.NotificationCollection
-import com.backend.commitoclock.notification.infra.mongo.NotificationMongoRepository
-import org.springframework.data.mongodb.core.BulkOperations
+import com.backend.commitoclock.notification.infra.persistence.mongo.NotificationCollection
+import com.backend.commitoclock.notification.infra.persistence.mongo.NotificationMongoRepository
 import org.springframework.data.mongodb.core.BulkOperations.BulkMode.UNORDERED
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
@@ -21,7 +20,6 @@ class NotificationRepositoryImpl(
     private val mongoTemplate: MongoTemplate
 ) : NotificationRepository {
 
-    @Transactional
     override fun saveAll(notifications: List<NotificationTarget>) {
         val bulkOps = mongoTemplate.bulkOps(
             UNORDERED,
@@ -37,7 +35,6 @@ class NotificationRepositoryImpl(
         bulkOps.execute()
     }
 
-    @Transactional
     override fun updateAll(notificationTargets: List<NotificationTarget>) {
         val bulkOps = mongoTemplate.bulkOps(
             UNORDERED,
@@ -54,7 +51,6 @@ class NotificationRepositoryImpl(
         bulkOps.execute()
     }
 
-    @Transactional(readOnly = true)
     override fun findByCreatedAt(createdAt: String): List<NotificationTarget> {
         return notificationMongoRepository.findByCreatedAt(createdAt).map { it.toDomain() }
     }

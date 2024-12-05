@@ -1,8 +1,7 @@
 package com.backend.commitoclock.notification.domain.service
 
-import com.backend.commitoclock.commit.service.CommitNotificationProcessor
+import com.backend.commitoclock.commit.application.service.CommitNotificationProcessor
 import com.backend.commitoclock.notification.domain.gateway.NotificationGateway
-import com.backend.commitoclock.shared.model.Countries
 import com.backend.commitoclock.notification.domain.model.Messages
 import com.backend.commitoclock.notification.domain.model.NotificationTarget
 import com.backend.commitoclock.notification.infra.concurrent.NotificationTargetQueue
